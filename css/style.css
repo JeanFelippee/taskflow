@@ -1,0 +1,210 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    min-height: 800px;
+    width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: beige;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+
+}
+
+header h1 {
+    font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: brown;
+    text-shadow: 3px 3px 3px #333;
+}
+
+header span {
+    font-size: 20px;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(51, 42, 155, 1) 0%, rgba(87, 160, 199, 1) 50%, rgba(242, 242, 216, 1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nova-tarefa {
+    width: 50%;
+    background: #833AB4;
+    background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px;
+    border-radius: 5px 40px 5px;
+}
+
+.nova-tarefa span {
+    font-size: 25px;
+    color: #FFF;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#novaTarefa {
+    width: 45%;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+#novaTarefa:focus {
+    outline: 2px solid #0bdf6a;
+    box-shadow: 0 0 5px rgba(3, 5, 8, 0.5);
+    background-color: #afe9c9;
+}
+
+.btAdicionar {
+    padding: 10px 50px;
+    border-radius: 2px 15px 2px;
+    margin-top: 20px;
+    background: radial-gradient(circle, rgba(51, 42, 155, 1) 0%, rgb(36, 141, 197) 50%, rgb(245, 245, 179) 100%);
+    font-size: 18px;
+    color: #FFF;
+    cursor: pointer;
+
+}
+
+.btAdicionar:hover {
+    transition: 0.5s linear;
+    background: radial-gradient(circle, rgb(152, 221, 169) 0%, rgb(133, 211, 153) 50%, rgb(71, 209, 106) 100%);
+    color: #333;
+}
+
+.lista-tarefas {
+    margin-top: 30px;
+    width: 70%;
+    min-height: auto;
+    padding-bottom: 20px;
+    height: auto;
+    background: linear-gradient(90deg, rgba(252, 176, 69, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(131, 58, 180, 1) 100%);
+
+}
+
+.tarefas {
+    list-style: none;
+    min-height: 250px;
+    height: auto;
+    width: 30%;
+    margin-left: 20px;
+    margin-top: 20px;
+    background-color: #666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tarefas .textTarefas {
+    text-align: center;
+    width: 100%;
+    display: block;
+    padding: 10px 0px;
+    border-bottom: 1px solid #333;
+    background: radial-gradient(circle, rgba(51, 42, 155, 1) 0%, rgb(36, 141, 197) 50%, rgb(245, 245, 179) 100%);
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.tarefa {
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-top: 15px;
+    padding: 20px 5px;
+    border-radius: 2px 15px 2px;
+    box-shadow: 0px 3px 5px #333;
+}
+
+.tarefa input {
+    margin: 0px 5px;
+    cursor: pointer;
+}
+
+.tarefa span {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    flex: 1;
+
+}
+
+.btExcluir {
+    background-color: #FFF;
+    border: none;
+    width: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+
+}
+
+.btExcluir img {
+    width: 20px;
+}
+
+.btExcluir:hover {
+    transition: 0.2s ease-in;
+    transform: scale(1.5, 1.5);
+}
+
+footer {
+    padding: 20px;
+    background-color: #333;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+
+    header h1 {
+        font-size: 35px;
+    }
+
+    header span {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .nova-tarefa {
+        width: 90%;
+    }
+
+    #novaTarefa {
+        width: 80%;
+    }
+
+    .lista-tarefas {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tarefas {
+        width: 90%;
+        margin-left: 0;
+    }
+}

@@ -4,16 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>TaskFlow</title>
 </head>
 
 <body>
 
+    <header>
+        <h1>TaskFlow</h1>
+        <span>Gerencie suas tarefas e mantenha seu dia produtivo!</span>
+    </header>
+
+    <main>
+        <section class="nova-tarefa">
+            <label for="novaTarefa">
+                <span>Escreva uma nova tarefa</span>
+            </label>
+            <input id="novaTarefa" type="text" placeholder="sua tarefa...">
+            <button class="btAdicionar">Adicionar</button>
+        </section>
+
+        <section class="lista-tarefas">
+            <ul class="tarefas">
+                <span class="textTarefas">Suas tarefas</span>
+                <li class="tarefa">
+                    <input type="checkbox">
+                    <span>Estudar Javascript</span>
+                    <button class="btExcluir"><img src="assets/delete.png" alt=""></button>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Todos os direitos resevados © 2026 TaskFlow</p>
+    </footer>
 
 
 
-    <script src="/js/app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
