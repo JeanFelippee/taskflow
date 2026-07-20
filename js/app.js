@@ -2,6 +2,7 @@
 const inputTarefa = document.querySelector('#novaTarefa');
 const btAdcionar = document.querySelector('.btAdicionar');
 const tarefas = document.querySelector('.tarefas');
+const tarefasDados = [];
 
 
 //botão de evento
@@ -16,7 +17,9 @@ function criarNovaTarefa() {
     }
 
     criandoElemento(texto);
+    dadosDeTarefa(texto);
     limpandoCampo();
+
 }
 
 // função de validação de campo
@@ -47,7 +50,7 @@ function criandoElemento(texto) {
     tarefas.append(tarefa);
 
     clickCheck(inputCheckBox, tarefa);
-
+    excluirTarefa(btExcluir, tarefa)
 };
 
 //função que limpa os campos
@@ -56,6 +59,30 @@ function limpandoCampo() {
     inputTarefa.focus();
 }
 
+//função pra verificação da tarefa
 function clickCheck(inputCheckBox, tarefa) {
+    inputCheckBox.addEventListener('click', () => {
+        if (inputCheckBox.checked) {
+            tarefa.querySelector('span').style.textDecoration = 'line-through'
+            tarefa.style.opacity = 0.5;
+        } else {
+            tarefa.querySelector('span').style = '';
+            tarefa.style.opacity = 1;
+        }
+    });
+};
+
+// função de excluir tarefa
+function excluirTarefa(button, tarefa) {
+    button.addEventListener('click', () => {
+        tarefa.remove();
+    });
+}
+
+function dadosDeTarefa(tarefa) {
+    tarefasDados.push({
+        texto: tarefa
+    });
+
 
 }
