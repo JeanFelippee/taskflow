@@ -2,22 +2,31 @@
 const inputTarefa = document.querySelector('#novaTarefa');
 const btAdcionar = document.querySelector('.btAdicionar');
 const tarefas = document.querySelector('.tarefas');
-const tarefasDados = [];
+const dadosDasTarefas = [];
+let numero = 0;
 
 
 //botão de evento
 btAdcionar.addEventListener('click', criarNovaTarefa);
+inputTarefa.addEventListener('keyup', (event) => {
+    if (event.key == 'Enter') {
+        criarNovaTarefa();
+    }
+});
+
+semTarefaCadastrada();
 
 //função que atualiza a tela
 function criarNovaTarefa() {
     const texto = inputTarefa.value.trim();
+
 
     if (!validarTarefa(texto)) {
         return;
     }
 
     criandoElemento(texto);
-    dadosDeTarefa(texto);
+    salvandoDados(texto);
     limpandoCampo();
 
 }
@@ -29,8 +38,10 @@ function validarTarefa(texto) {
 
 //função que cria o elemento
 function criandoElemento(texto) {
+    numero = numero
     const tarefa = document.createElement('li');
     tarefa.classList.add('tarefa');
+    tarefa.setAttribute('data-key', `${numero}`);
 
     const inputCheckBox = document.createElement('input');
     inputCheckBox.type = 'checkbox';
@@ -49,8 +60,10 @@ function criandoElemento(texto) {
     tarefa.append(inputCheckBox, textTarefa, btExcluir);
     tarefas.append(tarefa);
 
+    numero++;
     clickCheck(inputCheckBox, tarefa);
     excluirTarefa(btExcluir, tarefa)
+
 };
 
 //função que limpa os campos
@@ -74,15 +87,36 @@ function clickCheck(inputCheckBox, tarefa) {
 
 // função de excluir tarefa
 function excluirTarefa(button, tarefa) {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
         tarefa.remove();
+        let li = event.target.closest('li');
+        let key = Number(li.getAttribute('data-key'));
+        excluindoDados(key);
     });
-}
+};
 
-function dadosDeTarefa(tarefa) {
-    tarefasDados.push({
-        texto: tarefa
-    });
+//função que salva os dados das mensagem em um array
+function salvandoDados(tarefa) {
+    dadosDasTarefas.push(tarefa);
+    semTarefaCadastrada();
+};
 
+//função que exclui do array e mostra a mensagem se nada tiver na tela
+function excluindoDados(key) {
+    dadosDasTarefas.splice(key, 1);
+    semTarefaCadastrada();
+};
 
-}
+//função que mostra um texto na tela se não tiver nenhuma tarefa cadastrada.
+function semTarefaCadastrada() {
+    let dados = dadosDasTarefas.length
+    if (dados === 0) {
+        let msg = document.createElement('li');
+        msg.classList.add('msg');
+        msg.textContent = 'Nenhuma tarefa cadastrada'
+        numero = 0;
+        tarefas.append(msg);
+    } else if (tarefas.querySelector('.msg') !== null) {
+        tarefas.querySelector('.msg').remove();
+    };
+};
