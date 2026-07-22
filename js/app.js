@@ -4,6 +4,7 @@ const btAdcionar = document.querySelector('.btAdicionar');
 const tarefas = document.querySelector('.tarefas');
 const dadosDasTarefas = [];
 let numero = 0;
+let numeroArray = 0;
 
 
 //botão de evento
@@ -38,7 +39,6 @@ function validarTarefa(texto) {
 
 //função que cria o elemento
 function criandoElemento(texto) {
-    numero = numero
     const tarefa = document.createElement('li');
     tarefa.classList.add('tarefa');
     tarefa.setAttribute('data-key', `${numero}`);
@@ -93,18 +93,27 @@ function excluirTarefa(button, tarefa) {
         let key = Number(li.getAttribute('data-key'));
         excluindoDados(key);
     });
+
 };
 
 //função que salva os dados das mensagem em um array
 function salvandoDados(tarefa) {
-    dadosDasTarefas.push(tarefa);
+    dadosDasTarefas.push({ id: numeroArray, texto: tarefa });
+    console.log(dadosDasTarefas);
+    numeroArray++
     semTarefaCadastrada();
+
 };
 
 //função que exclui do array e mostra a mensagem se nada tiver na tela
 function excluindoDados(key) {
-    dadosDasTarefas.splice(key, 1);
+    let dadosArray = dadosDasTarefas.filter(item => item.id !== key);
+    dadosDasTarefas.length = 0;
+    dadosDasTarefas.push(...dadosArray);
+    console.log(dadosDasTarefas);
     semTarefaCadastrada();
+
+
 };
 
 //função que mostra um texto na tela se não tiver nenhuma tarefa cadastrada.
@@ -113,8 +122,9 @@ function semTarefaCadastrada() {
     if (dados === 0) {
         let msg = document.createElement('li');
         msg.classList.add('msg');
-        msg.textContent = 'Nenhuma tarefa cadastrada'
+        msg.textContent = 'Nenhuma tarefa cadastrada';
         numero = 0;
+        numeroArray = 0;
         tarefas.append(msg);
     } else if (tarefas.querySelector('.msg') !== null) {
         tarefas.querySelector('.msg').remove();
