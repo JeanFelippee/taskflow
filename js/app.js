@@ -99,7 +99,6 @@ function excluirTarefa(button, tarefa) {
 //função que salva os dados das mensagem em um array
 function salvandoDados(tarefa) {
     dadosDasTarefas.push({ id: numeroArray, texto: tarefa });
-    console.log(dadosDasTarefas);
     numeroArray++
     semTarefaCadastrada();
 
@@ -110,10 +109,7 @@ function excluindoDados(key) {
     let dadosArray = dadosDasTarefas.filter(item => item.id !== key);
     dadosDasTarefas.length = 0;
     dadosDasTarefas.push(...dadosArray);
-    console.log(dadosDasTarefas);
     semTarefaCadastrada();
-
-
 };
 
 //função que mostra um texto na tela se não tiver nenhuma tarefa cadastrada.
