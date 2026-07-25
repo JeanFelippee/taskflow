@@ -60,6 +60,12 @@ function criandoElemento(dadosArray) {
         tarefa.append(inputCheckBox, textTarefa, btExcluir);
         tarefas.append(tarefa);
 
+        if (dadosArray[i].check) {
+            tarefa.querySelector('span').style.textDecoration = 'line-through';
+            tarefa.style.opacity = 0.5;
+            inputCheckBox.checked = true;
+        }
+
         clickCheck(inputCheckBox, tarefa);
         excluirTarefa(btExcluir, tarefa)
     };
@@ -72,19 +78,46 @@ function limpandoCampo() {
     inputTarefa.focus();
 };
 
-//função pra verificação da tarefa
+//função que verifica se a tarefa já foi concluida
+//Nessa função salvamos também o historico do check
 function clickCheck(inputCheckBox, tarefa) {
-    inputCheckBox.addEventListener('click', () => {
+    let li = '';
+    let keyCheck = 0;
+    let dadosCheck = '';
+    inputCheckBox.addEventListener('click', (event) => {
         if (inputCheckBox.checked) {
+
             tarefa.querySelector('span').style.textDecoration = 'line-through';
             tarefa.style.opacity = 0.5;
 
+            li = event.target.closest('li');
+            keyCheck = Number(li.getAttribute('data-key'));
 
-
+            dadosCheck = dadosDasTarefas.map(checkItem => {
+                if (checkItem.id == keyCheck) {
+                    checkItem.check = true;
+                };
+                return checkItem;
+            });
         } else {
             tarefa.querySelector('span').style = '';
             tarefa.style.opacity = 1;
+
+            li = event.target.closest('li');
+            keyCheck = Number(li.getAttribute('data-key'));
+
+            dadosCheck = dadosDasTarefas.map(checkItem => {
+                if (checkItem.id == keyCheck && checkItem.check == true) {
+                    checkItem.check = false
+                }
+                return checkItem
+            });
         };
+
+        dadosDasTarefas.length = 0
+        dadosDasTarefas.push(...dadosCheck);
+        localStorage.clear();
+        localStorage.setItem('tarefaUser', JSON.stringify(dadosDasTarefas));
     });
 };
 
