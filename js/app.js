@@ -14,7 +14,7 @@ inputTarefa.addEventListener('keyup', (event) => {
     };
 });
 //Função para restaurar os dados quando aba for aberta novamente!
-restarandoLocalStorage();
+restaurarLocalStorage(); 0
 
 //função que atualiza a tela
 function criarNovaTarefa() {
@@ -57,7 +57,14 @@ function criandoElemento(dadosArray) {
         img.src = "assets/delete.png"
         btExcluir.append(img);
 
-        tarefa.append(inputCheckBox, textTarefa, btExcluir);
+        const btEditar = document.createElement('button');
+        btEditar.classList.add('btExcluir');
+
+        const imgEditar = document.createElement('img');
+        imgEditar.src = "assets/editar.png";
+        btEditar.append(imgEditar);
+
+        tarefa.append(inputCheckBox, textTarefa, btEditar, btExcluir);
         tarefas.append(tarefa);
 
         if (dadosArray[i].check) {
@@ -68,6 +75,7 @@ function criandoElemento(dadosArray) {
 
         clickCheck(inputCheckBox, tarefa);
         excluirTarefa(btExcluir, tarefa)
+        editarTarefa(btEditar, tarefa);
     };
 
 };
@@ -83,7 +91,6 @@ function limpandoCampo() {
 function clickCheck(inputCheckBox, tarefa) {
     let li = '';
     let keyCheck = 0;
-    let dadosCheck = '';
     inputCheckBox.addEventListener('click', (event) => {
         if (inputCheckBox.checked) {
 
@@ -93,7 +100,7 @@ function clickCheck(inputCheckBox, tarefa) {
             li = event.target.closest('li');
             keyCheck = Number(li.getAttribute('data-key'));
 
-            dadosCheck = dadosDasTarefas.map(checkItem => {
+            dadosDasTarefas.map(checkItem => {
                 if (checkItem.id == keyCheck) {
                     checkItem.check = true;
                 };
@@ -106,7 +113,7 @@ function clickCheck(inputCheckBox, tarefa) {
             li = event.target.closest('li');
             keyCheck = Number(li.getAttribute('data-key'));
 
-            dadosCheck = dadosDasTarefas.map(checkItem => {
+            dadosDasTarefas.map(checkItem => {
                 if (checkItem.id == keyCheck && checkItem.check == true) {
                     checkItem.check = false
                 }
@@ -114,12 +121,19 @@ function clickCheck(inputCheckBox, tarefa) {
             });
         };
 
-        dadosDasTarefas.length = 0
-        dadosDasTarefas.push(...dadosCheck);
-        localStorage.clear();
-        localStorage.setItem('tarefaUser', JSON.stringify(dadosDasTarefas));
+        salvarLocalStorage();
+
     });
 };
+
+function editarTarefa(button, tarefa) {
+    button.addEventListener('click', (event) => {
+        let texto = tarefa.querySelector('span').textContent;
+        console.log(texto);
+        inputTarefa.value = texto;
+        inputTarefa.focus();
+    });
+}
 
 // função de excluir tarefa
 function excluirTarefa(button, tarefa) {
@@ -137,7 +151,7 @@ function salvandoDados(tarefa) {
     dadosDasTarefas.push(
         { id: numeroArray, texto: tarefa, check: false }
     );
-    localStorage.setItem('tarefaUser', JSON.stringify(dadosDasTarefas));
+    salvarLocalStorage();
 
     let ultimoArray = dadosDasTarefas.at(-1);
     criandoElemento([ultimoArray]);
@@ -153,9 +167,7 @@ function excluindoDados(key) {
     dadosDasTarefas.length = 0;
     dadosDasTarefas.push(...dadosArray);
 
-    let dadosStorange = JSON.parse(localStorage.getItem('tarefaUser'));
-    let storageAtualizado = dadosStorange.filter(item => item.id !== key);
-    localStorage.setItem('tarefaUser', JSON.stringify(storageAtualizado));
+    salvarLocalStorage();
 
     if (dadosDasTarefas.length > 0) {
         numeroArray = dadosDasTarefas.at(-1).id + 1;
@@ -178,7 +190,7 @@ function semTarefaCadastrada() {
     };
 };
 
-function restarandoLocalStorage() {
+function restaurarLocalStorage() {
     const tarefasSalvas = JSON.parse(localStorage.getItem('tarefaUser')) || [];
     dadosDasTarefas.push(...tarefasSalvas);
 
@@ -190,3 +202,7 @@ function restarandoLocalStorage() {
     criandoElemento(dadosDasTarefas);
     semTarefaCadastrada();
 };
+
+function salvarLocalStorage() {
+    localStorage.setItem('tarefaUser', JSON.stringify(dadosDasTarefas));
+}
