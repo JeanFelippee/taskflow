@@ -51,6 +51,8 @@ TaskFlow/
 ├── index.html
 │
 └── README.md
+_________________________________________________
+
 ▶️ Como executar
 Clone este repositório:
 git clone https://github.com/SEU-USUARIO/TaskFlow.git
