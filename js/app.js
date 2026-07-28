@@ -4,6 +4,7 @@ const btAdcionar = document.querySelector('.btAdicionar');
 const tarefas = document.querySelector('.tarefas');
 const dadosDasTarefas = [];
 let numeroArray = 0;
+let editar = false;
 
 
 //botão de evento
@@ -14,7 +15,7 @@ inputTarefa.addEventListener('keyup', (event) => {
     };
 });
 //Função para restaurar os dados quando aba for aberta novamente!
-restaurarLocalStorage(); 0
+restaurarLocalStorage();
 
 //função que atualiza a tela
 function criarNovaTarefa() {
@@ -23,7 +24,14 @@ function criarNovaTarefa() {
 
     if (!validarTarefa(texto)) {
         return;
-    }
+    };
+
+    if (editar) {
+        return atualizarEdicoes(texto);
+    };
+
+
+
 
     //salvo o dado
     salvandoDados(texto);
@@ -68,8 +76,7 @@ function criandoElemento(dadosArray) {
         tarefas.append(tarefa);
 
         if (dadosArray[i].check) {
-            tarefa.querySelector('span').style.textDecoration = 'line-through';
-            tarefa.style.opacity = 0.5;
+            tarefa.classList.toggle('check');
             inputCheckBox.checked = true;
         }
 
@@ -94,8 +101,7 @@ function clickCheck(inputCheckBox, tarefa) {
     inputCheckBox.addEventListener('click', (event) => {
         if (inputCheckBox.checked) {
 
-            tarefa.querySelector('span').style.textDecoration = 'line-through';
-            tarefa.style.opacity = 0.5;
+            tarefa.classList.toggle('check')
 
             li = event.target.closest('li');
             keyCheck = Number(li.getAttribute('data-key'));
@@ -107,8 +113,8 @@ function clickCheck(inputCheckBox, tarefa) {
                 return checkItem;
             });
         } else {
-            tarefa.querySelector('span').style = '';
-            tarefa.style.opacity = 1;
+
+            tarefa.classList.toggle('check');
 
             li = event.target.closest('li');
             keyCheck = Number(li.getAttribute('data-key'));
@@ -126,13 +132,41 @@ function clickCheck(inputCheckBox, tarefa) {
     });
 };
 
+//função que é acionada no botão editar
 function editarTarefa(button, tarefa) {
     button.addEventListener('click', (event) => {
+        const anterior = document.querySelector('.editar');
+        if (anterior) {
+            anterior.classList.remove('editar');
+        }
+        editar = true;
         let texto = tarefa.querySelector('span').textContent;
-        console.log(texto);
+        tarefa.classList.toggle('editar');
         inputTarefa.value = texto;
         inputTarefa.focus();
     });
+}
+
+//função que atualiza a tela altera o array e persiste os dados no localstorage
+function atualizarEdicoes(texto) {
+    let tarefa = document.querySelector('.tarefa.editar');
+    if (tarefa !== null) {
+        tarefa.querySelector('span').textContent = texto;
+        tarefa.classList.toggle('editar');
+        let key = Number(tarefa.getAttribute('data-key'));
+        editar = false;
+
+        dadosDasTarefas.forEach(item => {
+            if (item.id === key) {
+                item.texto = texto;
+            }
+        });
+
+        salvarLocalStorage();
+        limpandoCampo();
+    } else {
+        salvandoDados(texto);
+    }
 }
 
 // função de excluir tarefa
@@ -177,14 +211,16 @@ function excluindoDados(key) {
 
 //função que mostra um texto na tela se não tiver nenhuma tarefa cadastrada.
 function semTarefaCadastrada() {
-    let dados = dadosDasTarefas.length
-    if (dados === 0) {
+
+    if (dadosDasTarefas.length == 0) {
+
         let msg = document.createElement('li');
         msg.classList.add('msg');
         msg.textContent = 'Nenhuma tarefa cadastrada';
         numeroArray = 0;
-        localStorage.clear();
+        salvarLocalStorage();
         tarefas.append(msg);
+
     } else if (tarefas.querySelector('.msg') !== null) {
         tarefas.querySelector('.msg').remove();
     };
@@ -205,4 +241,4 @@ function restaurarLocalStorage() {
 
 function salvarLocalStorage() {
     localStorage.setItem('tarefaUser', JSON.stringify(dadosDasTarefas));
-}
+};
